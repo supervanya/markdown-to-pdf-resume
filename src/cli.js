@@ -35,23 +35,33 @@ async function main() {
   }
 
   const outputPath = values.output ?? path.join('output', `${path.parse(inputPath).name}.pdf`);
-  await build(inputPath, outputPath);
+  let lastSources = await readSources(inputPath);
+  await build(lastSources, outputPath);
 
   if (values.watch) {
+    const rebuildIfChanged = async () => {
+      const sources = await readSources(inputPath);
+      // File events also fire when nothing changed (e.g. iCloud Drive touching a file as it syncs).
+      if (sources.markdown === lastSources.markdown && sources.css === lastSources.css) return;
+      lastSources = sources;
+      await build(sources, outputPath);
+    };
+
     // Queue rebuilds so two quick saves never render into the same file at once.
     let pending = Promise.resolve();
-    const rebuild = () => {
-      pending = pending.then(() => build(inputPath, outputPath)).catch((error) => console.error(error.message));
-    };
-    watchFiles([inputPath, STYLES_PATH], rebuild);
+    watchFiles([inputPath, STYLES_PATH], () => {
+      pending = pending.then(rebuildIfChanged).catch((error) => console.error(error.message));
+    });
     console.log('Watching for changes. Press Ctrl+C to stop.');
   }
 }
 
-async function build(inputPath, outputPath) {
-  const markdown = await readFile(inputPath, 'utf8');
-  const css = await readFile(STYLES_PATH, 'utf8');
+async function readSources(inputPath) {
+  const [markdown, css] = await Promise.all([readFile(inputPath, 'utf8'), readFile(STYLES_PATH, 'utf8')]);
+  return { markdown, css };
+}
 
+async function build({ markdown, css }, outputPath) {
   const html = renderHtml(parseResume(markdown), css);
   await mkdir(path.dirname(outputPath), { recursive: true });
   await renderPdf(html, outputPath);

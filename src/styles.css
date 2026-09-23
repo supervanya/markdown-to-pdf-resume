@@ -45,7 +45,10 @@ a {
   position: relative;
   display: grid;
   grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr); /* fixed height, so the paginator can detect overflow */
+  grid-template-rows: minmax(
+    0,
+    1fr
+  ); /* fixed height, so the paginator can detect overflow */
   column-gap: var(--column-gap);
   width: var(--page-width);
   height: var(--page-height);
@@ -135,7 +138,8 @@ a {
 .section-title {
   margin-bottom: 11pt;
   padding-bottom: 6pt;
-  background: linear-gradient(var(--ink), var(--ink)) left bottom / 1in 1px no-repeat;
+  background: linear-gradient(var(--ink), var(--ink)) left bottom / 1in 1px
+    no-repeat;
   font-size: 13pt;
   letter-spacing: 0.2em;
   text-transform: uppercase;
