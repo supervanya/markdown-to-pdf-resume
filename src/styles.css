@@ -1,0 +1,187 @@
+/* ---------- Design tokens ---------- */
+
+:root {
+  --ink: #333;
+  --muted: #888;
+  --faint: #bbb;
+  --rule: #ccc;
+
+  --page-width: 8.5in;
+  --page-height: 11in;
+  --page-padding: 0.5in 0.45in 0.5in;
+  --sidebar-width: 2.05in;
+  --column-gap: 0.3in;
+
+  --font: Arial, Helvetica, sans-serif;
+}
+
+@page {
+  size: letter;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font);
+  font-size: 7.5pt;
+  line-height: 1.4;
+  color: var(--ink);
+  background: #fff;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---------- Page ---------- */
+
+.page {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr); /* fixed height, so the paginator can detect overflow */
+  column-gap: var(--column-gap);
+  width: var(--page-width);
+  height: var(--page-height);
+  padding: var(--page-padding);
+  overflow: hidden;
+}
+
+.page + .page {
+  break-before: page;
+}
+
+.main {
+  overflow: hidden;
+}
+
+.page-number {
+  position: absolute;
+  right: 0.45in;
+  bottom: 0.3in;
+  font-size: 6pt;
+  color: var(--faint);
+}
+
+/* ---------- Sidebar ---------- */
+
+.name {
+  width: min-content; /* one word per line */
+  font-size: 20pt;
+  line-height: 1.1;
+}
+
+.contacts {
+  display: grid;
+  gap: 0.17in;
+  margin-top: 0.35in;
+  list-style: none;
+}
+
+.contact {
+  display: flex;
+  align-items: center;
+  gap: 0.12in;
+  font-size: 7pt;
+}
+
+.contact strong {
+  font-weight: inherit;
+}
+
+.icon {
+  flex: none;
+  width: 9pt;
+  height: 9pt;
+  fill: var(--ink);
+}
+
+.sidebar-section {
+  margin-top: 0.3in;
+  line-height: 1.5;
+}
+
+.sidebar-section__title {
+  width: 1.4in;
+  margin-bottom: 9pt;
+  padding-bottom: 7pt;
+  border-bottom: 1px solid var(--rule);
+  font-size: 10.5pt;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.sidebar-section p + p {
+  margin-top: 6pt;
+}
+
+.sidebar-section ul {
+  display: grid;
+  gap: 4.5pt;
+  list-style: none;
+}
+
+/* ---------- Main column ---------- */
+
+/* The short underline is a background rather than a positioned pseudo-element:
+   positioned elements are painted last, which would put the title after the
+   entries in the PDF's text layer (and in what ATS parsers read). */
+.section-title {
+  margin-bottom: 11pt;
+  padding-bottom: 6pt;
+  background: linear-gradient(var(--ink), var(--ink)) left bottom / 1in 1px no-repeat;
+  font-size: 13pt;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.section-title__note {
+  font-size: 8pt;
+  font-weight: normal;
+  letter-spacing: 0.05em;
+  text-transform: none;
+  color: var(--faint);
+}
+
+.entry + .entry {
+  margin-top: 10pt;
+}
+
+.entry__title {
+  font-size: 8.5pt;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.entry__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.entry__dates {
+  white-space: nowrap;
+}
+
+.entry p {
+  margin-top: 1pt;
+}
+
+.entry ul {
+  display: grid;
+  gap: 2pt;
+  margin-top: 3pt;
+  padding-left: 1.3em;
+}
+
+.entry li::marker {
+  color: var(--muted);
+}

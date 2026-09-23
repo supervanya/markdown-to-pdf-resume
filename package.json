@@ -1,0 +1,23 @@
+{
+  "name": "markdown-to-pdf-resume",
+  "version": "1.0.0",
+  "description": "Turn a Markdown resume into a two-column PDF.",
+  "type": "module",
+  "bin": {
+    "resume-pdf": "src/cli.js"
+  },
+  "scripts": {
+    "build": "node src/cli.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@mdi/js": "^7.4.47",
+    "marked": "^18.0.14",
+    "puppeteer": "^25.12.0"
+  },
+  "allowScripts": {
+    "puppeteer@25.12.0": true
+  }
+}
