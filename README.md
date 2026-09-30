@@ -17,6 +17,10 @@ To work with the actual resume with the file that's outside:
 npm run watch -- "../Current Resume/Jessica_Danley_Resume-september-2026.md" --output "../Current Resume/Jessica_Danley_Resume-september-2026.pdf"
 ```
 
+```sh
+npm run watch -- "../Vanya's Resume/Ivan_Prokopovich_Resume-september-2026.md" --output "../Vanya's Resume/Ivan_Prokopovich_Resume-september-2026.pdf"
+```
+
 Watch mode is easiest with the PDF open in a viewer that reloads changed files, such as macOS Preview or VS Code's PDF preview.
 
 ## Markdown conventions
